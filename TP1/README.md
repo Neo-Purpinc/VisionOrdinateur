@@ -9,9 +9,9 @@ Nous utiliserons l'[interface Python](https://docs.opencv.org/master/d0/de3/tuto
 
 - lit une image couleur RGB dont le nom est passé sur la ligne de commande
 - affiche sur la sortie standard : la taille de l'image, le nombre de canaux, le type des valeurs
-- affiche l'image d'entrée et les trois images en niveaux de gris correspondant aux canaux "rouge", "vert", "bleu"
-- convertit l'image RGB d'entrée en une image dans l'espace HSV, puis affiche l'image d'entrée et les trois images en niveaux de gris correspondant aux canaux "teinte", "saturation", "valeur"
-- écrit une image en niveaux de gris correspondant au canal "valeur"
+- affiche l'image d'entrée et les trois images en niveaux de gris correspondant aux canaux « rouge », « vert », « bleu »
+- convertit l'image RGB d'entrée en une image dans l'espace HSV, puis affiche l'image d'entrée et les trois images en niveaux de gris correspondant aux canaux « teinte », « saturation », « valeur »
+- écrit une image en niveaux de gris correspondant au canal « valeur »
 
 ## Exercice 2 : calcul d'histogramme
 
@@ -23,7 +23,7 @@ Nous utiliserons l'[interface Python](https://docs.opencv.org/master/d0/de3/tuto
 
 ## Exercice 3 : égalisation de contraste
 
-Écrire un programme Python qui :
+Écrire un programme qui :
 
 - lit une image en niveaux de gris passée dont le nom est passé en ligne de commande
 - effectue une égalisation de contraste (ou d'histogramme) sur l'image
@@ -33,6 +33,15 @@ Nous utiliserons l'[interface Python](https://docs.opencv.org/master/d0/de3/tuto
 
 Même programme que l'exercice 3 mais prenant en entrée une image RGB.
 Considérer et comparer deux stratégies :
-- égalisation d'histogramme indépendamment sur chaque canal
-- conversion de l'image dans l'espace HSV, puis égalisation de contraste du canal "valeur"
+
+- égalisation d'histogramme indépendante sur chaque canal
+- conversion de l'image dans l'espace HSV, puis égalisation de contraste du canal « valeur »
+
+## Exercice 5 : traitement temps réel
+
+Écrire un programme qui capture un flux vidéo en temps réel : vous pourrez par exemple utiliser la webcam de votre ordinateur, ou celle de votre smartphone en utilisant l'application [IP Webcam](https://play.google.com/store/apps/details?id=com.pas.webcam&hl=fr&gl=US) puis :
+
+1. convertit l'image RGB en niveau de gris, puis affiche l'image capturée et l'histogramme de l'image dans une seconde figure
+2. affiche l'image d'entrée RGB ainsi que les 3 histogrammes (avec leur couleur correspondante) des canaux RGB de l'image  dans une seconde figure.
+3. calcule une égalisation de contraste dans l'espace HSV (voir exercice précédent) et affiche l'image avant et après traitement.
 
