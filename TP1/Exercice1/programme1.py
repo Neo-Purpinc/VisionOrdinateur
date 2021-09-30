@@ -4,7 +4,7 @@ import sys
 if len(sys.argv) != 2:
     sys.exit("Image path missing.")
 
-img = cv.imread(cv.samples.findFile(sys.argv[1]))
+img = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_COLOR)
 if img is None:
     sys.exit("Could not read the image.")
 dimensions = img.shape
