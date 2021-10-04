@@ -79,7 +79,7 @@ Dans un second temps, il est nécessaire de re-normaliser les coefficients de ma
 
 Ecrire un programme qui prend en paramètre le nom d'une image et un nombre flottant `s` puis :
 
-- calcule sur l'image d'entrée le résultat d'un filtre gaussien d'écart-type $`\sigma`=s$
+- calcule sur l'image d'entrée le résultat d'un filtre gaussien d'écart-type $`\sigma=s`$
 - affiche dans deux fenêtre séparées l'image d'entrée et l'image filtrée.
 
 Modifier ensuite ce programme de manière à pouvoir faire varier l'écart-type interactivement à l'aide d'une [trackbar](https://docs.opencv.org/master/d9/dc8/tutorial_py_trackbar.html).
