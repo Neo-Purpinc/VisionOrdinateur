@@ -83,7 +83,7 @@ Ecrire un programme qui prend en paramètre le nom d'une image et un nombre flot
 - affiche dans deux fenêtre séparées l'image d'entrée et l'image filtrée.
 
 Modifier ensuite ce programme de manière à pouvoir faire varier l'écart-type interactivement à l'aide d'une [trackbar](https://docs.opencv.org/master/d9/dc8/tutorial_py_trackbar.html).
-A chaque modification de `$\sigma$`, l'affichage de l'image est mis à jour. 
+A chaque modification de $`\sigma`$, l'affichage de l'image est mis à jour. 
 
 
 ### Filtres de réhaussement des contours
@@ -148,11 +148,11 @@ Enfin, toujours à des fins de visualisation, il peut être intéressant d'étir
 
 Le principe est le suivant :
 
-- on applique un filtre gaussien d'écart-type `$\sigma$` sur l'image
-- on calcule la norme du gradient à partir des deux images `$I_x$` et `$I_y$`  obtenues par convolution avec les noyaux `$S_x$` et `$S_y$`
-La norme du gradient est approximée en chaque point par `$G(p)=\sqrt{I_x(p)^2+I_y(p)^2}$`
+- on applique un filtre gaussien d'écart-type $`\sigma`$ sur l'image
+- on calcule la norme du gradient à partir des deux images $`I_x`$ et $`I_y`$  obtenues par convolution avec les noyaux $`S_x`$ et $`S_y`$
+La norme du gradient est approximée en chaque point par $`G(p)=\sqrt{I_x(p)^2+I_y(p)^2}`$
 
-Écrire un programme  permettant de calculer une pyramide de contours pour des écarts-types variant de `$1$` à `$10$`. Les résultats seront stockés dans un tableau, et une `trackbar` permettra de visualiser les résultats pour les différentes valeurs de $`\sigma`$.
+Écrire un programme  permettant de calculer une pyramide de contours pour des écarts-types variant de $`1`$ à $`10`$. Les résultats seront stockés dans un tableau, et une `trackbar` permettra de visualiser les résultats pour les différentes valeurs de $`\sigma`$.
 
 ## Annexe
 
