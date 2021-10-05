@@ -4,7 +4,7 @@ import numpy as np
 
 window_title = "Original & Smoothed"
 def display(x):
-    s = float(cv.getTrackbarPos("sigma",window_title))
+    s = float(cv.getTrackbarPos("Sigma",window_title))
     n = int(3*s)
     if(n%2 == 0):
         n = n+1

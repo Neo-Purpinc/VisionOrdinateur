@@ -12,7 +12,7 @@ n = int(sys.argv[2])
 
 dst = cv.blur(img,(n,n))
 
-
 ret = np.concatenate((img, dst), axis=1)
-cv.imshow("Original & Blurred", ret)
+
+cv.imshow("Original & Smoothed", ret)
 cv.waitKey(0)
