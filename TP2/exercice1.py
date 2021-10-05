@@ -12,6 +12,7 @@ n = int(sys.argv[2])
 
 dst = cv.blur(img,(n,n))
 
-cv.imshow("Input image", img)
-cv.imshow("Output image",dst)
+
+ret = np.concatenate((img, dst), axis=1)
+cv.imshow("Original & Blurred", ret)
 cv.waitKey(0)
