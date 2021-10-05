@@ -16,6 +16,6 @@ if(n%2 == 0):
 
 dst = cv.GaussianBlur(img,(n,n),s)
 
-cv.imshow("Input image", img)
-cv.imshow("Output image",dst)
+ret = np.concatenate((img, dst), axis=1)
+cv.imshow("Original & Smoothed", ret)
 cv.waitKey(0)
