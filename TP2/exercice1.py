@@ -10,8 +10,7 @@ if img is None:
     sys.exit("Could not read the image.")
 n = int(sys.argv[2])
 
-kernel = np.ones((n,n))/(n**n)
-dst = cv.filter2D(img,-1,kernel)
+dst = cv.blur(img,(n,n))
 
 cv.imshow("Input image", img)
 cv.imshow("Output image",dst)
