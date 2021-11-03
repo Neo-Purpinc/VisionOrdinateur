@@ -9,10 +9,16 @@ def display(x):
     if(n%2 == 0):
         n = n+1
     dst = cv.GaussianBlur(img,(n,n),s)
-    dst3 = cv.filter2D(dst,-1,m3)
-    dst4 = cv.filter2D(dst,-1,m4)
+    dst3 = cv.filter2D(dst,cv.CV_16S,m3)
+    ret,thresh = cv.threshold(dst3,255,0,cv.THRESH_TRUNC)
+    ret,thresh2 = cv.threshold(thresh,0,0,cv.THRESH_TOZERO)
+    img3 = (thresh2).astype(np.uint8)
+    dst4 = cv.filter2D(dst,cv.CV_16S,m4)
+    ret,thresh = cv.threshold(dst4,255,0,cv.THRESH_TRUNC)
+    ret,thresh2 = cv.threshold(thresh,0,0,cv.THRESH_TOZERO)
+    img4 = (thresh2).astype(np.uint8)
     tmp1 = np.concatenate((img,dst),axis=1)
-    tmp2 = np.concatenate((dst3,dst4),axis=1)
+    tmp2 = np.concatenate((img3,img4),axis=1)
     final = np.concatenate((tmp1,tmp2),axis=1)
     cv.imshow(window_title,final)
 
