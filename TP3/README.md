@@ -194,7 +194,13 @@ Le programme affiche dans une fenêtre OpenCV le résultat du filtre de Canny et
 ### Tests
 
 * Tester votre programme sur l'image `grumpy` avec les paramètres suivants : $`\sigma=2, \alpha=0.95, \beta=0.8`$
+
+* Exemple de résultat :
+<img src="result2_0.95_0.8.png" width=300" >
+
+
 * Comparer le résultat avec la fonction `cv2.Canny` d'OpenCV en utilisant les mêmes paramètres (les paramètres ne sont pas tout à fait les mêmes, trouver un moyen de rendre les résultats comparables)
+
 
 ### Interface graphique
 
