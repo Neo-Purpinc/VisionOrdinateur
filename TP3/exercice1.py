@@ -1,8 +1,10 @@
 import cv2 as cv
 import sys
 import numpy as np
-import math as mt
 import queue as q
+import matplotlib.pyplot as plt
+
+window_title = "TP3"
 
 def isInImage(image,x,y):
     M,N = image.shape
@@ -34,45 +36,50 @@ def removeNonMaxima(grad_m, grad_d):
     M, N = grad_m.shape
     gmax = grad_m.copy()
     # On passe de l'intervalle [ 0 , 2pi ] à [ -pi , pi ]
-    grad_d_moins_pi_pi = np.array(grad_d) - mt.pi
+    grad_d_moins_pi_pi =grad_d.copy()
+    map(lambda x: x if x <= np.pi else x - 2*np.pi, grad_d_moins_pi_pi)
     for i in range(M):
         for j in range(N):
             a = None
             # On ramène dans l'intervalle [ -pi/8 , 7pi/8 [
-            if(grad_d_moins_pi_pi[i,j] < -mt.pi/8):
-                grad_d_moins_pi_pi[i,j] += mt.pi
-            elif(grad_d_moins_pi_pi[i,j] >= 7*mt.pi/8):
-                grad_d_moins_pi_pi[i,j] -= mt.pi
+            if(grad_d_moins_pi_pi[i,j] < -np.pi/8):
+                grad_d_moins_pi_pi[i,j] += np.pi
+            elif(grad_d_moins_pi_pi[i,j] >= 7*np.pi/8):
+                grad_d_moins_pi_pi[i,j] -= np.pi
+                
             # Horizontal
-            if(-(mt.pi/8)<= grad_d_moins_pi_pi[i,j] < mt.pi/8) and isInImage(grad_m,i,j-1) and isInImage(grad_m,i,j+1):
+            if(-np.pi/8 <= grad_d_moins_pi_pi[i,j] < np.pi/8) and isInImage(grad_m,i,j-1) and isInImage(grad_m,i,j+1):
                 a = grad_m[i,j-1]
                 b = grad_m[i,j+1]
             # Diagonal 45
-            elif(mt.pi/8 <= grad_d_moins_pi_pi[i,j] < 3*mt.pi/8) and isInImage(grad_m,i-1,j-1) and isInImage(grad_m,i+1,j+1):
+            elif(np.pi/8 <= grad_d_moins_pi_pi[i,j] < 3*np.pi/8) and isInImage(grad_m,i-1,j-1) and isInImage(grad_m,i+1,j+1):
                 a = grad_m[i-1,j-1]
                 b = grad_m[i+1,j+1]
             # Vertical 90
-            elif(3*mt.pi/8 <= grad_d_moins_pi_pi[i,j] < 5*mt.pi/8) and isInImage(grad_m,i-1,j) and isInImage(grad_m,i+1,j):
+            elif(3*np.pi/8 <= grad_d_moins_pi_pi[i,j] < 5*np.pi/8) and isInImage(grad_m,i-1,j) and isInImage(grad_m,i+1,j):
                 a = grad_m[i-1,j]
                 b = grad_m[i+1,j]
             #Diagonal 135
-            elif(5*mt.pi/8 <= grad_d_moins_pi_pi[i,j] < 7*mt.pi/8) and isInImage(grad_m,i-1,j+1) and isInImage(grad_m,i+1,j-1):
+            elif(5*np.pi/8 <= grad_d_moins_pi_pi[i,j] < 7*np.pi/8) and isInImage(grad_m,i-1,j+1) and isInImage(grad_m,i+1,j-1):
                 a = grad_m[i-1,j+1]
                 b = grad_m[i+1,j-1]
             # Non-max Suppression
             if a is not None:
-                if(not((grad_m[i,j] >= a) and (grad_m[i,j] >= b))):
+                if(a > grad_m[i,j] or b > grad_m[i,j]):
                     gmax[i,j] = 0
     return gmax
 
 def computeTresholds(grad_maxima, alpha, beta):
-    sorted_grad_maxima = np.sort(grad_maxima.copy())
+    sorted_grad_maxima = np.sort(grad_maxima.copy().flatten())
     n = len(sorted_grad_maxima)
-    thigh = sorted_grad_maxima[round(alpha*n)]
+    rang = round(alpha*n)
+    if alpha == 1:
+        rang -=1
+    thigh = sorted_grad_maxima[rang]
     tlow = beta*thigh
     return thigh, tlow
 
-def hysteresisThresholding(grad_maxima, tLow, tHigh):
+def hysteresisThresholding(grad_maxima, tLow, tHigh):   
     fifo = q.Queue()
     canny = np.zeros_like(grad_maxima)
     M,N = grad_maxima.shape
@@ -90,42 +97,38 @@ def hysteresisThresholding(grad_maxima, tLow, tHigh):
                 fifo.put((c,d))
     return canny
 
-def test():
-    img = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_GRAYSCALE)
-    blurred = gaussianFiltering(img,2)
-
+def mycannyfunc(img,sigma,alpha,beta):
+    blurred = gaussianFiltering(img,sigma)
     sobelx64f = computeGx(blurred)
-    abs_sobelx64f = np.absolute(sobelx64f)
-    sobelx_8u = np.uint8(abs_sobelx64f)
-
     sobely64f = computeGy(blurred)
-    abs_sobely64f = np.absolute(sobely64f)
-    sobely_8u = np.uint8(abs_sobely64f)
-
     magnitude_64 = computeMagnitude(sobelx64f,sobely64f)
     magnitude = np.uint8(magnitude_64)
-
     direction_64 = computeDirection(sobelx64f,sobely64f)
-    direction = np.uint8(direction_64)
-
     gmax_64 = removeNonMaxima(magnitude_64,direction_64)
-    gmax = np.uint8(gmax_64)
+    tHigh, tLow = computeTresholds(gmax_64,alpha,beta)
+    print("tHigh = "+str(tHigh))
+    print("tLow = "+str(tLow))
+    mycanny_64 = hysteresisThresholding(gmax_64,tLow,tHigh)
+    mycanny = np.uint8(mycanny_64)
+    canny = cv.Canny(img,tHigh,tLow,apertureSize=3,L2gradient=True)
+    ecrireImage(blurred,magnitude,mycanny)
+    return mycanny,canny
 
-    tHigh, tLow = computeTresholds(gmax_64,0.95,0.8)
+def ecrireImage(blurred,magnitude,mycanny):
+    cv.imwrite("Blurred.jpg",blurred)
+    cv.imwrite("Magnitude.jpg",magnitude)
+    cv.imwrite("MyCanny.jpg",mycanny)
 
-    canny_64 = hysteresisThresholding(gmax_64,tLow,tHigh)
-    canny = np.uint8(canny_64)
+def display(x):
+    sigma = float(cv.getTrackbarPos("Sigma",window_title))
+    alpha = float(cv.getTrackbarPos("Alpha",window_title))/20.
+    beta = float(cv.getTrackbarPos("Beta",window_title))/20.
+    cv.imshow(window_title,np.concatenate(mycannyfunc(img,sigma,alpha,beta),axis=1))
 
-    cv.imshow("Original",img)
-    cv.imshow("Blurred",blurred)
-    cv.imshow("Sobel X",sobelx_8u)
-    cv.imshow("Sobel Y",sobely_8u)
-    cv.imshow("Magnitude",magnitude)
-    cv.imshow("Direction",direction)
-    cv.imshow("Non-Maxima",gmax)
-    cv.imshow("My Canny",canny)
-    # cv.imshow("Canny", cv.Canny(img,tHigh,tLow))
-    cv.waitKey(0)
-
-test()
-
+cv.namedWindow(window_title)
+img = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_GRAYSCALE)
+cv.createTrackbar("Sigma",window_title,2,20,display)
+cv.createTrackbar("Alpha",window_title,19,20,display)
+cv.createTrackbar("Beta",window_title,16,20,display)
+display("initialisation")
+cv.waitKey(0)
