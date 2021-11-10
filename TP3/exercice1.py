@@ -37,7 +37,7 @@ def removeNonMaxima(grad_m, grad_d):
     gmax = grad_m.copy()
     # On passe de l'intervalle [ 0 , 2pi ] à [ -pi , pi ]
     grad_d_moins_pi_pi =grad_d.copy()
-    map(lambda x: x if x <= np.pi else x - 2*np.pi, grad_d_moins_pi_pi)
+    # map(lambda x: x if x <= np.pi else x - 2*np.pi, grad_d_moins_pi_pi)
     for i in range(M):
         for j in range(N):
             a = None
@@ -46,7 +46,6 @@ def removeNonMaxima(grad_m, grad_d):
                 grad_d_moins_pi_pi[i,j] += np.pi
             elif(grad_d_moins_pi_pi[i,j] >= 7*np.pi/8):
                 grad_d_moins_pi_pi[i,j] -= np.pi
-                
             # Horizontal
             if(-np.pi/8 <= grad_d_moins_pi_pi[i,j] < np.pi/8) and isInImage(grad_m,i,j-1) and isInImage(grad_m,i,j+1):
                 a = grad_m[i,j-1]
@@ -70,11 +69,11 @@ def removeNonMaxima(grad_m, grad_d):
     return gmax
 
 def computeTresholds(grad_maxima, alpha, beta):
-    sorted_grad_maxima = np.sort(grad_maxima.copy().flatten())
+    sorted_grad_maxima = np.sort(grad_maxima.copy(), axis=None)
     n = len(sorted_grad_maxima)
     rang = round(alpha*n)
     if alpha == 1:
-        rang -=1
+        rang -= 1
     thigh = sorted_grad_maxima[rang]
     tlow = beta*thigh
     return thigh, tlow
@@ -97,8 +96,8 @@ def hysteresisThresholding(grad_maxima, tLow, tHigh):
                 fifo.put((c,d))
     return canny
 
-def mycannyfunc(img,sigma,alpha,beta):
-    blurred = gaussianFiltering(img,sigma)
+def mycannyfunc(image,sigma,alpha,beta):
+    blurred = gaussianFiltering(image,sigma)
     sobelx64f = computeGx(blurred)
     sobely64f = computeGy(blurred)
     magnitude_64 = computeMagnitude(sobelx64f,sobely64f)
@@ -106,13 +105,11 @@ def mycannyfunc(img,sigma,alpha,beta):
     direction_64 = computeDirection(sobelx64f,sobely64f)
     gmax_64 = removeNonMaxima(magnitude_64,direction_64)
     tHigh, tLow = computeTresholds(gmax_64,alpha,beta)
-    print("tHigh = "+str(tHigh))
-    print("tLow = "+str(tLow))
+    print("tHigh = "+str(tHigh)+"\ttLow = "+str(tLow))
     mycanny_64 = hysteresisThresholding(gmax_64,tLow,tHigh)
     mycanny = np.uint8(mycanny_64)
-    canny = cv.Canny(img,tHigh,tLow,apertureSize=3,L2gradient=True)
     ecrireImage(blurred,magnitude,mycanny)
-    return mycanny,canny
+    return mycanny,blurred, tHigh, tLow
 
 def ecrireImage(blurred,magnitude,mycanny):
     cv.imwrite("Blurred.jpg",blurred)
@@ -123,7 +120,8 @@ def display(x):
     sigma = float(cv.getTrackbarPos("Sigma",window_title))
     alpha = float(cv.getTrackbarPos("Alpha",window_title))/20.
     beta = float(cv.getTrackbarPos("Beta",window_title))/20.
-    cv.imshow(window_title,np.concatenate(mycannyfunc(img,sigma,alpha,beta),axis=1))
+    mycannyres, blur, thigh, tlow = mycannyfunc(img,sigma,alpha,beta)
+    cv.imshow(window_title,np.concatenate([mycannyres, cv.Canny(blur,thigh,tlow,L2gradient=True)],axis=1))
 
 cv.namedWindow(window_title)
 img = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_GRAYSCALE)
