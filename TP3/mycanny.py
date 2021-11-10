@@ -133,7 +133,8 @@ elif len(sys.argv) == 5:
     alpha_user = sys.argv[3]
     beta_user = sys.argv[4]
 else:
-    sys.exit("Please, add at least image path.\nYou can also give sigma for GaussianBlur in addition to alpha and beta for the thresholds.")
+    sys.exit("Please, add at least image path.\n"+
+            "You can also give sigma for the GaussianBlur in addition to alpha and beta for the thresholds.")
 img = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_GRAYSCALE)
 cv.namedWindow(window_title)
 cv.createTrackbar("Sigma",window_title,sigma_user,20,display)
