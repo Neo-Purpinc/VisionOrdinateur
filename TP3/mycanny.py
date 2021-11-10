@@ -105,28 +105,39 @@ def mycannyfunc(image,sigma,alpha,beta):
     direction_64 = computeDirection(sobelx64f,sobely64f)
     gmax_64 = removeNonMaxima(magnitude_64,direction_64)
     tHigh, tLow = computeTresholds(gmax_64,alpha,beta)
-    print("tHigh = "+str(tHigh)+"\ttLow = "+str(tLow))
+    print("Avec les paramètres sigma = "+str(sigma)+", alpha = "+str(alpha)+
+    " et beta = "+str(beta)+",\ntHigh = "+str(tHigh)+"\ttLow = "+str(tLow))
     mycanny_64 = hysteresisThresholding(gmax_64,tLow,tHigh)
     mycanny = np.uint8(mycanny_64)
-    ecrireImage(blurred,magnitude,mycanny)
-    return mycanny,blurred, tHigh, tLow
+    canny = cv.Canny(blurred,tHigh,tLow,L2gradient=True)
+    ecrireImage(blurred,magnitude,mycanny,sigma,alpha,beta)
+    return mycanny,canny
 
-def ecrireImage(blurred,magnitude,mycanny):
-    cv.imwrite("Blurred.jpg",blurred)
-    cv.imwrite("Magnitude.jpg",magnitude)
-    cv.imwrite("MyCanny.jpg",mycanny)
+def ecrireImage(blurred,magnitude,mycanny,s,a,b):
+    cv.imwrite("Blurred_"+str(s)+".jpg",blurred)
+    cv.imwrite("Magnitude_"+str(s)+"_"+str(a)+"_"+str(b)+".jpg",magnitude)
+    cv.imwrite("MyCanny_"+str(s)+"_"+str(a)+"_"+str(b)+".jpg",mycanny)
 
 def display(x):
     sigma = float(cv.getTrackbarPos("Sigma",window_title))
     alpha = float(cv.getTrackbarPos("Alpha",window_title))/20.
     beta = float(cv.getTrackbarPos("Beta",window_title))/20.
-    mycannyres, blur, thigh, tlow = mycannyfunc(img,sigma,alpha,beta)
-    cv.imshow(window_title,np.concatenate([mycannyres, cv.Canny(blur,thigh,tlow,L2gradient=True)],axis=1))
-
-cv.namedWindow(window_title)
+    cv.imshow(window_title,np.concatenate(mycannyfunc(img,sigma,alpha,beta),axis=1))
+    
+if len(sys.argv) == 2:
+    sigma_user = 2
+    alpha_user = 19
+    beta_user = 16
+elif len(sys.argv) == 5:
+    sigma_user = sys.argv[2]
+    alpha_user = sys.argv[3]
+    beta_user = sys.argv[4]
+else:
+    sys.exit("Please, add at least image path.\nYou can also give sigma for GaussianBlur in addition to alpha and beta for the thresholds.")
 img = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_GRAYSCALE)
-cv.createTrackbar("Sigma",window_title,2,20,display)
-cv.createTrackbar("Alpha",window_title,19,20,display)
-cv.createTrackbar("Beta",window_title,16,20,display)
+cv.namedWindow(window_title)
+cv.createTrackbar("Sigma",window_title,sigma_user,20,display)
+cv.createTrackbar("Alpha",window_title,alpha_user,20,display)
+cv.createTrackbar("Beta",window_title,beta_user,20,display)
 display("initialisation")
 cv.waitKey(0)
