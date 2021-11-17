@@ -13,5 +13,5 @@ rows,cols = img.shape[0:2]
 M = np.float32([[1,0,x],[0,1,y]])
 dst = cv.warpAffine(img,M,(cols,rows))
 res = np.concatenate((img,dst),axis=1)
-cv.imshow('Original',res)
+cv.imshow('Résultat',res)
 cv.waitKey(0)
