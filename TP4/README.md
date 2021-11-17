@@ -44,4 +44,4 @@ Reprendre l'exercice 3 et l'adapter à la transformation projective : 4 points d
 
 En vous appuyant sur OpenCV, écrire un programme qui permet de remplacer l'affiche "Motown" dans l'image ci-dessous par l'image de votre choix (passée en paramètres). Vous pourrez définir manuellement les quatre points de contrôle sur l'image.
 
-<img src="times_square.jpg" width="300px">
+<img src="times_square.jpg" width="600px">
