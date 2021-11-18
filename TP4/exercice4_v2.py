@@ -22,8 +22,8 @@ if len(sys.argv) != 2:
 img = cv.imread(cv.samples.findFile("times_square.jpg"),cv.IMREAD_COLOR)
 img_to_apply = cv.imread(cv.samples.findFile(sys.argv[1]),cv.IMREAD_COLOR)
 rows, cols, channels = img.shape
-
-pts1 = np.float32([[0,0],[cols-1,0],[cols-1,rows-1],[0,rows-1]])
+rows2, cols2,channels2 = img_to_apply.shape
+pts1 = np.float32([[0,0],[cols2-1,0],[cols2-1,rows2-1],[0,rows2-1]])
 pts2 = np.float32([[0,0],[0,0],[0,0],[0,0]])
 cv.namedWindow("Transformation Projective")
 cv.setMouseCallback('Transformation Projective',addPoint)
