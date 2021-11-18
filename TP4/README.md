@@ -10,7 +10,7 @@ En vous appuyant sur la bibliothèque OpenCV, écrire un programme Python qui ap
 
 ## Exercice 2 : rotation
 
-Exprimer l'opération de rotation en terme de produit matriciel.
+Exprimer l'opération de rotation en terme de produit matriciel : vous commencerez par l'expression d'une rotation de centre $`(0,0)`$, puis d'une rotation de centre quelconque $`c_x,c_y`$.
 
 ### Version 1
 
