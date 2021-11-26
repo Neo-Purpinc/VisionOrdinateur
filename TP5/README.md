@@ -58,7 +58,7 @@ M(x)=\sum_{x\in \mathbf w}
 I_x^2(x) & I_{xy}(x) \\
 I_{xy}(x) & I_y^2(x) \\
 \end{bmatrix}
-$`
+`$
 
 où $`I_{xy}(x)=I_x(x)*I_y(x)`$ et $`\mathbf w`$ est un petit voisinage autour du point (par exemple 3x3 ou 5x5). La taille de ce voisinage correspond au paramètre `blockSize`de la fonction `cornerHarris(...)`.
 
