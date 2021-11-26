@@ -5,9 +5,12 @@ Transformations géométriques en OpenCV.
 
 ## Exercice 1 : translation
 
+Exprimer l'opération de translation en terme de produit matriciel.
 En vous appuyant sur la bibliothèque OpenCV, écrire un programme Python qui applique à une image une translation par un vecteur $`\mathbf v(x,y)`$  avec  le nom de l'image, `x`  et `y` passés en paramètre.
 
 ## Exercice 2 : rotation
+
+Exprimer l'opération de rotation en terme de produit matriciel : vous commencerez par l'expression d'une rotation de centre $`(0,0)`$, puis d'une rotation de centre quelconque $`(c_x,c_y)`$.
 
 ### Version 1
 
@@ -27,12 +30,14 @@ Conclusion ?
 
 ## Exercice 3 : transformation affine
 
+Exprimer l'opération de transformation affine en terme de produit matriciel.
 Une transformation affine possède six degrés de liberté. C'est une transformation qui combine rotation, translation et mise à l'échelle (homothétie). Trois couples de points permettent donc de définir une transformation affine.
 On souhaite appliquer une transformation affine à une image passée en paramètre. Cette transformation sera paramétrée par trois points de contrôle définis interactivement par l'utilisateur.
 
 
 ## Exercice 4 : transformation projective
 
+Exprimer l'opération de transformation projective en terme de produit matriciel.
 Une transformation projective, aussi appelée homographie, possède huit degrés de liberté. Quatre couples de points permettent donc de définir une telle transformation.
 
 ### Programme 1
