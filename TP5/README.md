@@ -50,7 +50,7 @@ On va reprendre le programme précédent, mais en implémentant la méthode de d
 Le principe de la méthode est le suivant : on cherche les points de l'image dans le voisinage desquels la variation est forte dans deux directions orthogonales. Pour cela, on s'appuie d'une part sur le calcul des variations horizontales et verticales (c'est à dire le gradient de l'image), d'autre part sur la matrice $`M`$ de covariance du gradient.
 
 Soient $`I_x`$ et $`I_y`$ les images du gradient horizontal et vertical, respectivement.
-La matrice  $M$  est définie en fonction d'un point $`x`$ par :
+La matrice  $`M`$  est définie en fonction d'un point $`x`$ par :
 
 $` 
 M(x)=\sum_{x\in \mathbf w}
