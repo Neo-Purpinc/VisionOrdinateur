@@ -9,51 +9,6 @@ def isInImage(image,x,y):
         res = False
     return res
 
-def gaussianFiltering(f,s):
-    n = int(3*s)
-    if(n%2 == 0):
-        n = n+1
-    return cv.GaussianBlur(f,(n,n),s)
-
-def removeNonMaxima(f):
-    #f = gaussianFiltering(img,s)
-    gx = cv.Sobel(f,cv.CV_64F,1,0)
-    gy = cv.Sobel(f,cv.CV_64F,0,1)
-    grad_m = np.sqrt(gx**2+gy**2)
-    grad_d = np.arctan2(gy,gx)   
-    M, N = grad_m.shape
-    gmax = f.copy()
-    grad_d_copy = grad_d.copy()
-    for i in range(M):
-        for j in range(N):
-            a = None
-            # On ramène dans l'intervalle [ -pi/8 , 7pi/8 [
-            if(grad_d_copy[i,j] < -np.pi/8):
-                grad_d_copy[i,j] += np.pi
-            elif(grad_d_copy[i,j] >= 7*np.pi/8):
-                grad_d_copy[i,j] -= np.pi
-            # Horizontal
-            if(-np.pi/8 <= grad_d_copy[i,j] < np.pi/8) and isInImage(grad_m,i,j-1) and isInImage(grad_m,i,j+1):
-                a = grad_m[i,j-1]
-                b = grad_m[i,j+1]
-            # Diagonal 45
-            elif(np.pi/8 <= grad_d_copy[i,j] < 3*np.pi/8) and isInImage(grad_m,i-1,j-1) and isInImage(grad_m,i+1,j+1):
-                a = grad_m[i-1,j-1]
-                b = grad_m[i+1,j+1]
-            # Vertical 90
-            elif(3*np.pi/8 <= grad_d_copy[i,j] < 5*np.pi/8) and isInImage(grad_m,i-1,j) and isInImage(grad_m,i+1,j):
-                a = grad_m[i-1,j]
-                b = grad_m[i+1,j]
-            #Diagonal 135
-            elif(5*np.pi/8 <= grad_d_copy[i,j] < 7*np.pi/8) and isInImage(grad_m,i-1,j+1) and isInImage(grad_m,i+1,j-1):
-                a = grad_m[i-1,j+1]
-                b = grad_m[i+1,j-1]
-            # Non-max Suppression
-            if a is not None:
-                if(a > grad_m[i,j] or b > grad_m[i,j]):
-                    gmax[i,j] = 0
-    return gmax
-
 def harrisFunc(img):
     gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
     gray = np.float32(gray)
