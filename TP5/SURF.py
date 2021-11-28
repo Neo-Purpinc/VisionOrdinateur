@@ -27,18 +27,13 @@ def rotate_and_resize(image):
     dst = cv.resize(dst,(width,height), interpolation = cv.INTER_NEAREST)
     return dst
 
-def my_sift(image):
-    sift = cv.SIFT_create()
-    nb_pts = cv.getTrackbarPos("Nb points",window_title)
+def my_surf(image):
+    surf = cv.xfeatures2d.SURF_create(400)
     gray = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
-    kp = sift.detect(gray,None)
-    j=0
+    kp = surf.detect(gray,None)
     for i in cv.KeyPoint_convert(kp):
-        j+=1
         x,y = i.ravel()
         cv.circle(image,(int(x),int(y)),3,[0,255,0],-1)
-        if nb_pts!=0 and j>=nb_pts:
-            break
     return image
 
 def projection(image):
@@ -53,7 +48,7 @@ def display(x):
     dst = add_gaussian_noise(img)
     dst = rotate_and_resize(dst)
     dst = projection(dst)
-    dst = my_sift(dst)
+    dst = my_surf(dst)
     dst = np.uint8(dst)
     cv.imshow(window_title,dst)
 
@@ -84,7 +79,6 @@ cv.namedWindow(window_title)
 cv.createTrackbar("Angle",window_title,0,360,display)
 cv.createTrackbar("Scale",window_title,50,100,display)
 cv.createTrackbar("Noise",window_title,2,20,display)
-cv.createTrackbar("Nb points",window_title,0,1000,display)
 cv.setMouseCallback(window_title,addPoint)
 display("initialisation")
 if cv.waitKey(0):
