@@ -2,11 +2,11 @@ import sys
 import numpy as np
 import cv2 as cv
 
-# Create a function that add gaussian noise to an image with np.random.normal and a parameter sigma
 def add_gaussian_noise(image):
     noise = cv.getTrackbarPos("Noise",window_title)
-    gaussian = np.random.normal(0,np.abs(noise),image.shape[:2])
+    gaussian = np.random.normal(0,np.abs(noise),image.shape[:2]).astype(np.float32)
     noisy_image = np.zeros(image.shape,np.float32)
+    image = image.astype(np.float32)
     if len(image.shape) == 2:
         noisy_image = image + gaussian
     else:
@@ -20,17 +20,16 @@ def add_gaussian_noise(image):
 def rotate_and_resize(image):
     angle = cv.getTrackbarPos("Angle",window_title)
     scale = float((cv.getTrackbarPos("Scale",window_title)+50)/100)
-    width = int(cols*scale)
-    height = int(rows*scale)
-    M = cv.getRotationMatrix2D((cols/2,rows/2),angle,1)
-    dst = cv.warpAffine((image),M,(cols,rows))
+    width = int(image.shape[1]*scale)
+    height = int(image.shape[0]*scale)
+    M = cv.getRotationMatrix2D((image.shape[1]/2,image.shape[0]/2),angle,1)
+    dst = cv.warpAffine((image),M,(image.shape[1],image.shape[0]))
     dst = cv.resize(dst,(width,height), interpolation = cv.INTER_NEAREST)
     return dst
 
 def my_shi_tomasi(image):
     nb_points = cv.getTrackbarPos("Nb points",window_title)
     gray = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
-    print(nb_points)
     corners = cv.goodFeaturesToTrack(gray,nb_points,0.01,10)
     corners = np.int0(corners)
     for i in corners:
@@ -47,8 +46,8 @@ def projection(image):
         return image
 
 def display(x):
-    #dst = add_gaussian_noise(img)
-    dst = rotate_and_resize(img)
+    dst = add_gaussian_noise(img)
+    dst = rotate_and_resize(dst)
     dst = projection(dst)
     dst = my_shi_tomasi(dst)
     dst = np.uint8(dst)
@@ -59,10 +58,13 @@ def addPoint(event,x,y,flags,param):
     if event == cv.EVENT_LBUTTONDOWN and nb_points_selectionnes<4:
         pts2[nb_points_selectionnes] = [x,y]
         nb_points_selectionnes += 1
+        display("affichage de la zone sélectionnée")
+    elif event == cv.EVENT_RBUTTONDOWN and nb_points_selectionnes>3:
+        nb_points_selectionnes = 0
+        display("Retour à l'image original")
 
 
 if len(sys.argv) != 2:
-    print("Usage: python3 exercice2.py <filename>")
     sys.exit(1)
 img = cv.imread(sys.argv[1])
 dst = None
@@ -75,7 +77,7 @@ pts2 = np.float32([[0,0],[0,0],[0,0],[0,0]])
 cv.namedWindow(window_title)
 cv.createTrackbar("Angle",window_title,0,360,display)
 cv.createTrackbar("Scale",window_title,50,100,display)
-cv.createTrackbar("Noise",window_title,2,10,display)
+cv.createTrackbar("Noise",window_title,2,20,display)
 cv.createTrackbar("Nb points",window_title,25,100,display)
 cv.setMouseCallback(window_title,addPoint)
 display("initialisation")
