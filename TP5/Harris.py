@@ -2,19 +2,16 @@ import cv2 as cv
 import sys
 import numpy as np
 
-def isInImage(image,x,y):
-    M,N = image.shape
-    res = True
-    if x >= M or x < 0 or y < 0 or y >= N:
-        res = False
-    return res
-
 def harrisFunc(img):
-    gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-    gray = np.float32(gray)
+    gray = np.float32(cv.cvtColor(img,cv.COLOR_BGR2GRAY))
     dst = cv.cornerHarris(gray,3,3,0.01)
     i_dlt = cv.dilate(dst,None)
-    img[dst>0.01*dst.max()]=[0,0,255]
+
+    tmp = np.float32(np.zeros(gray.shape))
+    tmp[np.logical_and(dst>0.01*dst.max(),dst==i_dlt)] = 255
+    tmp = cv.dilate(tmp,None)
+    
+    img[tmp==255]=[0,0,255]
     return img
 
 def display(x):
@@ -25,11 +22,11 @@ def display(x):
     M = cv.getRotationMatrix2D((cols/2,rows/2),angle,1)
     dst = cv.warpAffine(image,M,(cols,rows))
     dst = cv.resize(dst,(width,height), interpolation = cv.INTER_NEAREST)
-    harris = harrisFunc(dst)
+    harris = np.uint8(harrisFunc(dst))
     cv.imshow(window_title,harris)
 
 if len(sys.argv) != 2:
-    print("Usage: python3 exercice1.py <filename>")
+    print("Usage: python3 Harris.py <filename>")
     sys.exit(1)
 image = cv.imread(sys.argv[1],cv.IMREAD_COLOR)
 rows, cols, channels = image.shape
