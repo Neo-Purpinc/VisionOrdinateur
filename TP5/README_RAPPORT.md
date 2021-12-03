@@ -54,7 +54,7 @@ De la même manière, Shi-Tomasi n'est pas invariant à l'échelle, on voit nett
 
 ### Robustesse au bruit
 
-En comparant les images pour différentes valeurs de $\sigma$, on se rend compte que Shi-Tomasi est plutôt robuste au bruit :
+En comparant les images pour différentes valeurs de \sigma, on se rend compte que Shi-Tomasi est plutôt robuste au bruit :
 
 ![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_0.png)
 ![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_7.png)
