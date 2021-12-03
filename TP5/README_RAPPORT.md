@@ -3,6 +3,7 @@
 ## Descripteur Harris
 
 ### Robustesse à la rotation
+
 En faisant varier l'angle de rotation, on se rend compte que le descripteur Harris est invariant à la rotation, mise à part les points détectés qui sortent de l'image et ceux qui deviennent détectés pour certains angles.
 
 ![0°](Harris/Rotation/harris_0.png)
@@ -12,6 +13,7 @@ En faisant varier l'angle de rotation, on se rend compte que le descripteur Harr
 
 
 ### Robustesse à la mise à l'échelle
+
 Le descripteur Harris n'est pas solide concernant les changements d'échelles. En effet, si un pixel forme un coin à 50% de l'image de base, alors plusieurs coins seront détectés à 150% par exemple.
 ![](Scale_Edge.png)
 
@@ -34,6 +36,7 @@ On voit par exemple que un des côtés du triangle rectangle se remplit de point
 ## Descripteur Shi-Tomasi
 
 ### Robustesse à la rotation
+
 Tout comme Harris, Shi-Tomasi est invariant à la rotation : 
 
 ![](Shi-Tomasi/Rotation/Shi-Tomasi_0.png)
@@ -42,6 +45,7 @@ Tout comme Harris, Shi-Tomasi est invariant à la rotation :
 ![](Shi-Tomasi/Rotation/Shi-Tomasi_135.png)
 
 ### Robustesse à la mise à l'échelle
+
 De la même manière, Shi-Tomasi n'est pas invariant à l'échelle, on voit nettement la différence entre la première image à 50% et les deux suivantes à 100/150% :
 
 ![](Shi-Tomasi/Scale/Shi-Tomasi_0.5.png)
@@ -50,11 +54,23 @@ De la même manière, Shi-Tomasi n'est pas invariant à l'échelle, on voit nett
 
 ### Robustesse au bruit
 
+En comparant les images pour différentes valeurs de $\sigma$, on se rend compte que Shi-Tomasi est plutôt robuste au bruit :
+
+![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_0.png)
+![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_7.png)
+![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_14.png)
+
 ### Robustesse à la transformation projective
+
+On peut voir que les points d'intérêts sont conservées en plus de voir l'ajout de nouveaux.
+
+![](Shi-Tomasi/Projection/Shi-Tomasi_original.png)
+![](Shi-Tomasi/Projection/Shi-Tomasi_projection.png)
 
 ## Descripteur SIFT
 
 ### Robustesse à la rotation
+
 SIFT attribue à chaque point-clé une ou plusieurs orientations déterminées localement sur l'image à partir de la direction des gradients dans un voisinage autour du point. De ce fait, SIFT est invariant à la rotation.
 
 ![](SIFT/Rotation/SIFT_0.png)
