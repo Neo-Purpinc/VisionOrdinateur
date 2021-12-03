@@ -21,7 +21,7 @@ C'est bien ce que j'ai pu remarquer lors de mes tests :
 ![](Harris/Scale/harris_1.0.png)
 ![](Harris/Scale/harris_1.5.png)
 
-On voit par exemple que un des côtés du triangle se remplit de point d'intérêts en grandissant, de même pour la tête de flèche.
+On voit par exemple que un des côtés du triangle rectangle se remplit de point d'intérêts en grandissant, de même pour la tête de flèche.
 
 ## Descripteur My Harris
 
