@@ -113,6 +113,8 @@ Il semble ainsi que SIFT soit plutôt robuste concernant les transformations pro
 
 ### Robustesse à la rotation
 
+FAST semble plutôt robuste à la rotation sauf pour la rotation à 180°.
+
 ![](FAST/Rotation/FAST_0.png)
 ![](FAST/Rotation/FAST_45.png)
 ![](FAST/Rotation/FAST_135.png)
@@ -121,6 +123,8 @@ Il semble ainsi que SIFT soit plutôt robuste concernant les transformations pro
 ![](FAST/Rotation/FAST_315.png)
 
 ### Robustesse à la mise à l'échelle
+
+FAST à 50% trouve moins de points que à 100/150%.
 
 ![](FAST/Scale/FAST_0.5.png)
 ![](FAST/Scale/FAST_1.0.png)
