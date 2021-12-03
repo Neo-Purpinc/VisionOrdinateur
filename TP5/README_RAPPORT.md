@@ -141,15 +141,16 @@ On voit rapidement que FAST est très sensible au bruit.
 
 ## Descripteur SURF
 
-Je n'arrive plus à faire fonctionner SURF.create().
+Je n'arrive plus à faire fonctionner SURF.create() mais le code est disponible.
 
 ## Descripteur BRIEF
 
-Je n'arrive plus à faire fonctionner BRIEF.create().
+Je n'arrive plus à faire fonctionner BRIEF.create() mais le code est disponible.
 
 ## Descripteur ORB
 
 ### Robustesse à la rotation
+ORB, qui correspond à Orientied FAST and Rotated BRIEF m'a l'air, au vu des tests, robuste à la rotation sans pour autant y être invariant.
 
 ![](ORB/Rotation/ORB_0.png)
 ![](ORB/Rotation/ORB_45.png)
@@ -159,12 +160,15 @@ Je n'arrive plus à faire fonctionner BRIEF.create().
 ![](ORB/Rotation/ORB_315.png)
 
 ### Robustesse à la mise à l'échelle
+A 50%, on obtient tous les points centrés au centre, là où cela est plus stable entre 100 et 150%.
 
 ![](ORB/Scale/ORB_0.5.png)
 ![](ORB/Scale/ORB_1.0.png)
 ![](ORB/Scale/ORB_1.5.png)
 
 ### Robustesse au bruit
+
+De la même manière que certains autres descripteurs vus plus haut, ORB semble assez stable avec le bruit.
 
 ![](ORB/Noise/ORB_Noise_0.png)
 ![](ORB/Noise/ORB_Noise_7.png)
