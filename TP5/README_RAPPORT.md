@@ -60,6 +60,8 @@ En comparant les images pour différentes valeurs de \sigma, on se rend compte q
 ![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_7.png)
 ![](Shi-Tomasi/Noise/Shi-Tomasi_Noise_14.png)
 
+Sur d'autres images cependant, on se rend compte que le caractère est beaucoup plus aléatoire, ce qui n'en fait pas une solution viable.
+
 ### Robustesse à la transformation projective
 
 On peut voir que les points d'intérêts sont conservées en plus de voir l'ajout de nouveaux.
@@ -78,7 +80,9 @@ SIFT attribue à chaque point-clé une ou plusieurs orientations déterminées l
 ![](SIFT/Rotation/SIFT_180.png)
 
 ### Robustesse à la mise à l'échelle
+
 Comme l'indique son nom, le descripteur Scale-Invariant Features Transform est invariant à l'échelle car pour chaque point clé, le calcul s'effectue sur le gradient de la pyramide dont le paramètre est le plus proche du facteur d'échelle du point.
+Cependant, lors de mes tests, je n'ai pas forcément pu retrouver cette propriété :
 
 ![](SIFT/Scale/SIFT_0.5.png)
 ![](SIFT/Scale/SIFT_1.0.png)
@@ -86,36 +90,79 @@ Comme l'indique son nom, le descripteur Scale-Invariant Features Transform est i
 
 ### Robustesse au bruit
 
+SIFT est plutôt robuste pour les modifications affines mais le bruit étant aléatoire, le descripteur semble très sensible à cette notion.
+
+![](SIFT/Noise/SIFT_Noise_0.png)
+![](SIFT/Noise/SIFT_Noise_7.png)
+![](SIFT/Noise/SIFT_Noise_14.png)
+![](SIFT/Noise/SIFT_Noise_20.png)
+
 ### Robustesse à la transformation projective
+
+Avec cette image de base :
+
+![](SIFT/Projection/SIFT_Original.png)
+
+En zoomant sur le carré blanc en bas, on obtient ceci : 
+
+![](SIFT/Projection/SIFT_Projection.png)
+
+Il semble ainsi que SIFT soit plutôt robuste concernant les transformations projectives.
 
 ## Descripteur FAST
 
 ### Robustesse à la rotation
 
+![](FAST/Rotation/FAST_0.png)
+![](FAST/Rotation/FAST_45.png)
+![](FAST/Rotation/FAST_135.png)
+![](FAST/Rotation/FAST_180.png)
+![](FAST/Rotation/FAST_225.png)
+![](FAST/Rotation/FAST_315.png)
+
 ### Robustesse à la mise à l'échelle
 
+![](FAST/Scale/FAST_0.5.png)
+![](FAST/Scale/FAST_1.0.png)
+![](FAST/Scale/FAST_1.5.png)
+
 ### Robustesse au bruit
+
+On voit rapidement que FAST est très sensible au bruit.
+
+![](FAST/Noise/FAST_Noise_0.png)
+![](FAST/Noise/FAST_Noise_7.png)
+![](FAST/Noise/FAST_Noise_14.png)
+![](FAST/Noise/FAST_Noise_20.png)
 
 ## Descripteur SURF
 
-### Robustesse à la rotation
-
-### Robustesse à la mise à l'échelle
-
-### Robustesse au bruit
+Je n'arrive plus à faire fonctionner SURF.create().
 
 ## Descripteur BRIEF
 
-### Robustesse à la rotation
-
-### Robustesse à la mise à l'échelle
-
-### Robustesse au bruit
+Je n'arrive plus à faire fonctionner BRIEF.create().
 
 ## Descripteur ORB
 
 ### Robustesse à la rotation
 
+![](ORB/Rotation/ORB_0.png)
+![](ORB/Rotation/ORB_45.png)
+![](ORB/Rotation/ORB_135.png)
+![](ORB/Rotation/ORB_180.png)
+![](ORB/Rotation/ORB_225.png)
+![](ORB/Rotation/ORB_315.png)
+
 ### Robustesse à la mise à l'échelle
 
+![](ORB/Scale/ORB_0.5.png)
+![](ORB/Scale/ORB_1.0.png)
+![](ORB/Scale/ORB_1.5.png)
+
 ### Robustesse au bruit
+
+![](ORB/Noise/ORB_Noise_0.png)
+![](ORB/Noise/ORB_Noise_7.png)
+![](ORB/Noise/ORB_Noise_14.png)
+![](ORB/Noise/ORB_Noise_20.png)
