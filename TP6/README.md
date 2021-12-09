@@ -13,7 +13,7 @@ L'appariement des points selon leur descripteur se fera au plus proche voisin, e
 
 ## Appariement 
 
-Écrire un programme qui prend deux images A et B en entrée, calcule les points d'intérêt de Harris en fonction d'un certain nombre de paramètres passés en ligne de commande et affiche les deux images côte à côte avec les appariements calculés sous forme de points reliés par des lignes.
+Écrire un programme qui prend deux images A et B en entrée, calcule les points d'intérêt de Harris en fonction d'un certain nombre de paramètres passés en ligne de commande puis affiche une image composée des deux images A et B côte à côte, et où chaque appariement entre couple de points est modélisé par une ligne entre ces deux points.
 
 ## Calcul d'homographie
 
