@@ -25,6 +25,7 @@ Faire :
 2. Calcul d'une homographie H' à partir de ces points
 3. Transformation des points de l'ensemble B par l'homographie H'
 4. Calcul de la distance moyenne entre les points A et H'(B)
+   
 Tant que cette distance est supérieure à un seuil $`\epsilon`$
 
 
