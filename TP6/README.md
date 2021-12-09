@@ -4,19 +4,6 @@ L'objectif de ce TP est de créer une image panoramique construite à partir de 
 On rappelle qu'il existe une transformation homographique $`H`$ entre ces images.
 
 
-Estimation d'une transformation projective à partir de correspondances imparfaites.
-
-On considérera les images disponibles dans le répertoire `/img`.
-
-
-On souhaite utiliser les points d’intérêt extraits et mis en correspondance entre les deux images pour calculer H. En utilisant sift (voir TP précédent), vérifier que les correspondances extraites sont bien utilisables. Vous trouverez dans le fichier matchesReduit.txt le fichier des points en cor- respondance extraits: sur chaque ligne les deux premières coordonnées représentent le point m1 de l’image 1 mis en correspondance avec les deux derniers coordonnées représentant le point m2 de l’image 2. Utiliser les fonction de lecture fopne et fscanf pour lire les données et remplir les tableaux p1 et p2 contenant les points d’intérêt des images 1 et 2.
-En utilisant la fonction ransacfithomography, calculer l’homographie H transformant au mieux l’ensemble des points d’intérêt de l’image 1 sur l’ensemble des points d’intérêt de l’image 2.
-que représente H−1(I2)?
-Construisez maintenant le panoramique c’est a dire l’image contenant I1
-et et l’image I transformée par H−1(I )?. Pour limiter la place utilisée, 22
-vous construirez l’image panoramique I de taille [r, 2*c] ou [r,c] est la taille d’une des images. Vous placerez I dans la partie gauche de l’image et compléterez les autres points en utilisant I2 si c’est possible. Vous me rendrez le code du programme et l’image panoramique obtenue.
-
-
 ## Exercice 1 : appariement des points d'intérêt de Harris
 
 Dans un premier temps, on souhaite s'appuyer sur le détecteur de coins de Harris pour apparier les points similaires entre deux images.
