@@ -37,7 +37,7 @@ Le programme final assemble maintenant les deux images obtenues et affiche le r�
 Les descripteurs calculés précédemment ont un problème important : ils sont peu robustes, et en particuliers pas invariants à la rotation et au changement d'échelle.
 Les descripteurs codés dans SIFT sont plus robustes, car ils sont invariants à un certain nombre de transformations. 
 
-En vous appuyant sur les documentations https://docs.opencv.org/3.4/dc/dc3/tutorial_py_matcher.html et https://docs.opencv.org/3.4/d1/de0/tutorial_py_feature_homography.html , écrire un programme permettant d'assembler deux images ou plus en vous appuyant sur les descripteurs SIFT puis ORB.
+En vous appuyant sur toutes les fonctions de la librairie OpenCV et la documentation https://docs.opencv.org/3.4/dc/dc3/tutorial_py_matcher.html et https://docs.opencv.org/3.4/d1/de0/tutorial_py_feature_homography.html , écrire un programme permettant d'assembler deux images ou plus en vous appuyant sur les descripteurs SIFT puis ORB.
 
 
 
