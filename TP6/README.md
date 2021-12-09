@@ -20,12 +20,12 @@ L'appariement des points selon leur descripteur se fera au plus proche voisin, e
 Le programme calcule maintenant l'homographie $`H`$ entre les images à partir des points appariés, et affiche les deux images A et H(B) côte à côte.
 Vous pourrez vous appuyer sur l'algorithme RANSAC qui permet de calculer une homographie entre deux ensemble de points contenant potentiellement des outliers :
 
-1. Faire :
-2. Tirage aléatoire de quatre couples de points appariés (ensemble A vers ensemble B)
-3. Calcul d'une homographie H' à partir de ces points
-4. Transformation des points de l'ensemble B par l'homographie H'
-5. Calcul de la distance moyenne entre les points A et H'(B)
-6. Tant que cette distance est supérieure à un seuil $`\epsilon`$
+Faire :
+1. Tirage aléatoire de quatre couples de points appariés (ensemble A vers ensemble B)
+2. Calcul d'une homographie H' à partir de ces points
+3. Transformation des points de l'ensemble B par l'homographie H'
+4. Calcul de la distance moyenne entre les points A et H'(B)
+Tant que cette distance est supérieure à un seuil $`\epsilon`$
 
 
 ## Assemblage des images
