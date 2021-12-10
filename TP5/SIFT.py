@@ -2,6 +2,23 @@ import sys
 import numpy as np
 import cv2 as cv
 
+import sys
+import numpy as np
+import cv2 as cv
+
+if len(sys.argv) != 2:
+    print("Usage: python3 SIFT.py <filename>")
+    sys.exit(1)
+
+img = cv.imread(sys.argv[1],cv.IMREAD_COLOR)
+current = img
+dst = None
+rows, cols = img.shape[:2]
+window_title = "SIFT"
+nb_points_selectionnes = 0
+pts1 = np.float32([[0,0],[cols,0],[cols,rows],[0,rows]])
+pts2 = np.float32([[0,0],[0,0],[0,0],[0,0]])
+
 def add_gaussian_noise(image):
     noise = cv.getTrackbarPos("Noise",window_title)
     gaussian = np.random.normal(0,np.abs(noise),image.shape[:2]).astype(np.float32)
@@ -28,8 +45,8 @@ def rotate_and_resize(image):
     return dst
 
 def my_sift(image):
-    sift = cv.SIFT_create()
     nb_pts = cv.getTrackbarPos("Nb points",window_title)
+    sift = cv.SIFT_create()
     gray = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
     kp = sift.detect(gray,None)
     j=0
@@ -50,8 +67,13 @@ def projection(image):
         return image
 
 def display(x):
-    dst = add_gaussian_noise(img)
-    dst = rotate_and_resize(dst)
+    global current
+    if x == "noise":
+        gaussian = add_gaussian_noise(img)
+        current = gaussian
+        dst = rotate_and_resize(gaussian)
+    else:
+        dst = rotate_and_resize(current)
     dst = projection(dst)
     dst = my_sift(dst)
     dst = np.uint8(dst)
@@ -67,24 +89,14 @@ def addPoint(event,x,y,flags,param):
         nb_points_selectionnes = 0
         display("Retour à l'image original")
 
-
-if len(sys.argv) != 2:
-    print("Usage: python3 exercice3.py <filename>")
-    sys.exit(1)
-img = cv.imread(sys.argv[1])
-dst = None
-rows, cols, channels = img.shape
-window_title = "SIFT"
-nb_points_selectionnes = 0
-
-pts1 = np.float32([[0,0],[cols,0],[cols,rows],[0,rows]])
-pts2 = np.float32([[0,0],[0,0],[0,0],[0,0]])
+def modificationNoise(x):
+    display("noise")
 
 cv.namedWindow(window_title)
 cv.createTrackbar("Angle",window_title,0,360,display)
 cv.createTrackbar("Scale",window_title,50,100,display)
-cv.createTrackbar("Noise",window_title,2,20,display)
-cv.createTrackbar("Nb points",window_title,0,1000,display)
+cv.createTrackbar("Noise",window_title,2,20,modificationNoise)
+cv.createTrackbar("Nb points",window_title,25,1000,display)
 cv.setMouseCallback(window_title,addPoint)
 display("initialisation")
 if cv.waitKey(0):
