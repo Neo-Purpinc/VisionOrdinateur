@@ -2,21 +2,29 @@ import numpy as np
 import cv2 as cv
 import sys
 import os
+def initialize():
+    if len(sys.argv) != 2:
+        print("Usage: python3 SIFT.py <directory>")
+        sys.exit(1)
+    directory = sys.argv[1]
+    files = []
+    for filename in os.listdir(directory):
+        f = os.path.join(directory,filename)
+        files.append(f)
+    files.sort()
+    return files
 
-if len(sys.argv) != 2:
-    print("Usage: python3 SIFT.py <directory>")
-    sys.exit(1)
-directory = sys.argv[1]
-files = []
-for filename in os.listdir(directory):
-    f = os.path.join(directory,filename)
-    files.append(f)
-files.sort()
+def completeImages(img1,img2):
+    if(img1.shape!=img2.shape):
+        maxHeight = img1.shape[0] if img1.shape[0] >= img2.shape[0] else img2.shape[0]
+        maxHeight = img1.shape[1] if img1.shape[1] >= img2.shape[1] else img2.shape[1]
+        img1 = cv.resize(img1,(maxHeight,maxHeight))
+        img2 = cv.resize(img2,(maxHeight,maxHeight))
+    return img1,img2
 
-sift = cv.SIFT_create()
-bf = cv.BFMatcher()
+def stitch2images(img1,img2):
+    img_1, img_2 = completeImages(img1,img2)
 
-def stitch2images(img_1,img_2):
     kp_1, desc_1 = sift.detectAndCompute(img_1,None)
     kp_2, desc_2 = sift.detectAndCompute(img_2,None)
     
@@ -65,14 +73,19 @@ def stitch2images(img_1,img_2):
     warp_img[trans_dist[1]:rows1+trans_dist[1],trans_dist[0]:cols1+trans_dist[0]] = img_2
     return warp_img
 
-
-print(files)
-# res = cv.imread(files[0],cv.IMREAD_COLOR)
-# for i in range(len(files)):
-#     current = cv.imread(files[i],cv.IMREAD_COLOR)
-#     res = stitch2images(res,current)
-
-res = stitch2images(cv.imread(files[0]),cv.imread(files[1]))
-res = stitch2images(res,cv.imread(files[2]))
+files = initialize()
+sift = cv.SIFT_create()
+bf = cv.BFMatcher()
+for i in range(len(files)-1):
+    print(files[i])
+    print(files[i+1])
+    res = stitch2images(cv.imread(files[i]),cv.imread(files[i+1]))
+    title = "Res"+str(i)
+    cv.imshow(title,res)
+# res = stitch2images(cv.imread(files[0]),cv.imread(files[1]))
+# res = stitch2images(res,cv.imread(files[2]))
+# res = stitch2images(res,cv.imread(files[3]))
+#resize the final res to fit the screen
+res = cv.resize(res,(1000,600))
 cv.imshow("Final",res)
 cv.waitKey(0)
