@@ -4,10 +4,9 @@ import sys
 import argparse
 import pafy
 
-parser = argparse.ArgumentParser(description='This program use background subtraction methods provided by \
-                                              OpenCV.')
+parser = argparse.ArgumentParser(description='This program use background subtraction methods provided by OpenCV.')
 parser.add_argument('--input', type=str, help='Path to a video.', default='../Videos/video1.avi')
-parser.add_argument('--background',type=str,help="Path to the output image file.", default='../Images/times_square.jpg')
+parser.add_argument('--background',type=str,help="Path to the output image file.", default='../Images/background.jpg')
 parser.add_argument('--algo', type=str, help='Background subtraction method (KNN, MOG2).', default='MOG2')
 args = parser.parse_args()
 
@@ -32,8 +31,8 @@ while(video.isOpened()):
         th, mask = cv.threshold(mask,20,255,cv.THRESH_BINARY)
         res= cv.resize(background,(frame.shape[1], frame.shape[0]))
         res[mask==255] = frame[mask==255]
-        cv.imshow('Mask',mask)
-        cv.imshow('Frame',frame)
+        # cv.imshow('Mask',mask)
+        # cv.imshow('Frame',frame)
         cv.imshow('Res',res)
         if cv.waitKey(30) & 0xff == 27:
             break
