@@ -2,10 +2,10 @@ import cv2 as cv
 import numpy as np
 import sys
 import argparse
-import pafy
+# import pafy
 
 parser = argparse.ArgumentParser(description='This program use background subtraction implemented by Walid BEN SAID with frame differencing approach.')
-parser.add_argument('--input', type=str, help='Path to a video.', default='../Videos/video1.avi')
+parser.add_argument('--input', type=str, help='Path to a video.', default='../Videos/video1.mp4')
 parser.add_argument('--background',type=str,help="Path to the background image.", default='../Images/background.jpg')
 args = parser.parse_args()
 
@@ -20,8 +20,8 @@ kernel = np.ones((5,5),np.uint8)
 re,current_frame = video.read()
 previous_frame = current_frame
 while(video.isOpened()):
-    current_frame_gray = cv.cvtColor(current_frame,cv.COLOR_BGR2GRAY)
-    previous_frame_gray = cv.cvtColor(previous_frame,cv.COLOR_BGR2GRAY)
+    current_frame_gray = cv.GaussianBlur(cv.cvtColor(current_frame,cv.COLOR_BGR2GRAY),(3,3),2)
+    previous_frame_gray = cv.GaussianBlur(cv.cvtColor(previous_frame,cv.COLOR_BGR2GRAY),(3,3),2)
 
     mask = cv.absdiff(current_frame_gray,previous_frame_gray)
     th, binary_mask = cv.threshold(mask,20,255,cv.THRESH_BINARY)

@@ -1,3 +1,20 @@
+# Rapport du projet de Vision par Ordinateur
+
+## Sujet choisi
+
+
+### En utilisant la méthode OpenCV
+
+### En utilisant le Frame Differencing
+
+### En utilisant Gaussian Average
+
+### Conclusion
+
+
+
+
+
 # Travaux pratiques : séance 7
 
 Ce TP est évalué et à rendre pour le **13 janvier**. Il fera l'objet d'un rapport au format Markdown (`README.md` dans votre dépôt), qui contiendra un résumé de vos travaux et des illustrations des résultats sous forme de jeux d'essais.
@@ -28,7 +45,6 @@ L'objet à suivre pourra être sélectionné interactivement. Le suivi sera mat�
 ## Sujet 4 : soustraction de fond
 
 L'objectif est d'implémenter un programme permettant de remplacer le fond d'un flux vidéo par une image passée en paramètre. Plus précisément, les objets dynamiques (qui se déplacent) seront superposés à l'image de fond.
-
 
 ## Sujet 5 : thématique libre
 
